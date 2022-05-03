@@ -5,6 +5,33 @@ from numpy.core.fromnumeric import size
 from scipy import interpolate
 from copy import copy, deepcopy
 
+class KalmanFilter(object):
+    def __init__(self, dt, u, std_acc, std_meas):
+        self.dt = dt
+        self.u = u
+        self.std_acc = std_acc
+
+        self.A = np.matrix([[1, self.dt],
+                            [0, 1]])
+        self.B = np.matrix([[(self.dt**2)/2], [self.dt]])
+
+        self.H = np.matrix([[1, 0]])
+
+        self.Q = np.matrix([[(self.dt**4)/4, (self.dt**3)/2],
+                            [(self.dt**3)/2, self.dt**2]]) * self.std_acc**2
+
+        self.R = std_meas**2
+
+        self.P = np.eye(self.A.shape[1])
+        
+        self.x = np.matrix([[0], [0]])
+
+        
+
+
+   
+
+
 
 def main():
     
