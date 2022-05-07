@@ -9,14 +9,14 @@ import time
 ## Below it is to calculate reference path's x, y, and heading angle theta
 ## We name it as x_ref, y_ref and theta_ref
 
-file = open("Austin.csv")
+file = open("path1.csv")
 data = np.loadtxt(file,delimiter=",")
 x_ref = data[:,0]
 y_ref = data[:,1]
         #slope = np.zeros(len(x_ref))
 theta_ref = np.zeros(len(x_ref))
 for i in range(len(x_ref)-1):
-    theta_ref[i] = math.atan2( (y_ref[i+1]-y_ref[i]),(x_ref[i+1]-x_ref[i]))
+    theta_ref[i] = -np.pi+ math.atan2( (y_ref[i+1]-y_ref[i]),(x_ref[i+1]-x_ref[i]))
 
 def SearchMinDistance(x,y):
     dis = np.zeros(len(x_ref))
@@ -56,12 +56,12 @@ def Direction(theta_ref,theta,theta_dot):
 t_start = time.time()
 time_span = 30
 dt = 0.1
-Kp = 0.005
-Kd = 0.001
-v = 30
+Kp = 10
+Kd = 5
+v = 0.5
 accel = 0
-x_current = 750
-y_current = 410
+x_current = 0
+y_current = -2.5
 theta_current = 0
 theta_dot_current = 0
 min_dis_pre = 0
@@ -80,7 +80,7 @@ for i in range(1000):
     # plug in theta_dot into our bicycle dynamics model
     [x_current,y_current,v,theta_current] = dynamics(x_current,y_current,v,theta_current,accel,theta_dot_current)
     #print(x_current,y_current,v,theta_current,theta_dot_current)
-    plt.plot(x_current,y_current,'o-')
+    plt.plot(x_current,y_current,'*-')
 
 #print(theta_ref[index],theta_current)
 plt.plot(10,10,'ro')
