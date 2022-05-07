@@ -42,13 +42,13 @@ class KalmanFilter(object):
         S = np.dot(self.H, np.dot(self.P, self.H.T)) + self.R
 
         
-        K = np.dot(np.dot(self.P, self.H.T), np.linalg.inv(S))  # Eq.(11)
+        K = np.dot(np.dot(self.P, self.H.T), np.linalg.inv(S))  
 
         self.x = np.round(
-            self.x + np.dot(K, (z - np.dot(self.H, self.x))))  # Eq.(12)
+            self.x + np.dot(K, (z - np.dot(self.H, self.x))))  
 
         I = np.eye(self.H.shape[1])
-        self.P = (I - (K * self.H)) * self.P  # Eq.(13)
+        self.P = (I - (K * self.H)) * self.P  
 
 
 def main():
@@ -83,8 +83,8 @@ def main():
     # plotting x and y coordinates of real_track and gps
     plt.plot(real_track[:, 0], real_track[:, 1], '--r')
     plt.plot(fake_gps[:, 0], fake_gps[:, 1], '-b')
-    plt.plot(np.squeeze(predictions) , real_track[: , 0], '-g')
-    plt.plot(np.squeeze(predictions) , real_track[: , 1], '-g')
+    #plt.plot(np.squeeze(predictions) , real_track[: , 0], '-g')
+    #plt.plot(np.squeeze(predictions) , real_track[: , 1], '-g')
 
     plt.show()
 
