@@ -65,8 +65,8 @@ def main():
     # creating fake gps noise
     fake_gps = deepcopy(real_track)
 
-    fake_gps[:, 0] = real_track[:, 0] + np.random.normal(0, 50)
-    fake_gps[:, 1] = real_track[:, 1] + np.random.normal(0, 50)
+    fake_gps[:, 0] = real_track[:, 0] + np.random.normal(0, 150)
+    fake_gps[:, 1] = real_track[:, 1] - np.random.normal(0, 150)
 
     kf = KalmanFilter(dt, initial_vel, std_acc, error)
     predictions = []
@@ -81,11 +81,15 @@ def main():
     print(predictions)
 
     # plotting x and y coordinates of real_track and gps
-    plt.plot(real_track[:, 0], real_track[:, 1], '--r')
-    plt.plot(fake_gps[:, 0], fake_gps[:, 1], '-b')
-    #plt.plot(np.squeeze(predictions) , real_track[: , 0], '-g')
-    #plt.plot(np.squeeze(predictions) , real_track[: , 1], '-g')
-
+    plt.plot(real_track[:, 0], real_track[:, 1], '-b', label = "Actual track")
+    plt.plot(fake_gps[:, 0], fake_gps[:, 1], '--r', label = "GPS data (with noise)")
+    plt.plot(np.squeeze(predictions) , real_track[: , 0], '-g', label = "Kalman Filter Estimation")
+    plt.plot(np.squeeze(predictions) , real_track[: , 1], '-g')
+    plt.legend()
+    plt.xlabel("Latitude")
+    plt.ylabel("Longitude")
+    plt.title("Kalman Filter Implementation")
+    
     plt.show()
 
 
