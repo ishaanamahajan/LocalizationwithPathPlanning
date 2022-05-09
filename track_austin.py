@@ -1,3 +1,4 @@
+from cProfile import label
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -56,17 +57,18 @@ def Direction(theta_ref,theta,theta_dot):
 t_start = time.time()
 time_span = 30
 dt = 0.1
-Kp = 10
+Kp = 40
 Kd = 5
-v = 0.5
+v = 0.4
 accel = 0
-x_current = 0
-y_current = -2.5
+x_current = 5
+y_current = 3
 theta_current = 0
 theta_dot_current = 0
 min_dis_pre = 0
-
-for i in range(1000):
+traj_x = [x_current]
+traj_y = [y_current]
+for i in range(500):
     #initial condition setting
 
     # calculating theta_dot, the one of input given in this step. Here we adjust theta_dot based on Kp term
@@ -80,9 +82,14 @@ for i in range(1000):
     # plug in theta_dot into our bicycle dynamics model
     [x_current,y_current,v,theta_current] = dynamics(x_current,y_current,v,theta_current,accel,theta_dot_current)
     #print(x_current,y_current,v,theta_current,theta_dot_current)
-    plt.plot(x_current,y_current,'*-')
+    traj_x.append(x_current)
+    traj_y.append(y_current)
+    #plt.plot(x_current,y_current,'r*-',label='Actual Trajectory')
+
 
 #print(theta_ref[index],theta_current)
-plt.plot(10,10,'ro')
-plt.plot(x_ref,y_ref)
+#plt.plot(10,10,'ro')
+plt.plot(traj_x,traj_y,'r*-',label='Actual Trajectory')
+plt.plot(x_ref,y_ref,label='Reference Trajectory')
+plt.legend()
 plt.show()
